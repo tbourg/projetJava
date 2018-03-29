@@ -40,9 +40,28 @@ public class Modele extends Observable {
 
     public void stopDD(int c, int r) {
         // TODO
-        if (chemin.get(0).symboleId == chemin.get(chemin.size() - 1).symboleId) {
+        if (!chemin.isEmpty() && chemin.get(0).symboleId == chemin.get(chemin.size() - 1).symboleId) {
             // mémoriser le dernier objet renvoyé par parcoursDD pour connaitre la case de relachement
             System.out.println("stopDD : " + c + "-" + r + " -> " + lastC + "-" + lastR);
+            System.out.println(chemin);
+            for(int i = 1; i < chemin.size() - 1; i++){
+                int x = chemin.get(i).x;
+                int y = chemin.get(i).y;
+                int x_p = chemin.get(i - 1).x;
+                int y_p = chemin.get(i - 1).y;
+                int x_s = chemin.get(i + 1).x;
+                int y_s = chemin.get(i + 1).y;
+                int d1, d2;
+                d1 = ((x == x_p) ? ((y == y_p - 1) ? 3 : 
+                        ((y == y_p + 1) ? 1 : 0)) :  
+                        ((y == y_p) ? ((x == x_p - 1) ? 2 : 
+                        ((x == x_p + 1) ? 4 : 0)) : 0));
+                d2 = ((x == x_s) ? ((y == y_s - 1) ? 3 : 
+                        ((y == y_s + 1) ? 1 : 0)) :  
+                        ((y == y_s) ? ((x == x_s - 1) ? 2 : 
+                        ((x == x_s + 1) ? 4 : 0)) : 0));
+                chemin.get(i).setChemin(d1, d2);
+            }
             setChanged();
             notifyObservers();
         }
@@ -51,7 +70,7 @@ public class Modele extends Observable {
     public void parcoursDD(int c, int r) {
         // TODO
         Case caseCourante = grille.tab[c][r];
-        if (caseCourante.estVide() || (caseCourante.estSymbole() && caseCourante.symboleId == chemin.get(0).symboleId)) {
+        if (caseCourante.estVide() || (caseCourante.estSymbole() && (chemin.isEmpty() || caseCourante.symboleId == chemin.get(0).symboleId))) {
             lastC = c;
             lastR = r;
             System.out.println("parcoursDD : " + c + "-" + r);
