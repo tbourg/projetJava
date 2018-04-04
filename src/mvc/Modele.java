@@ -23,7 +23,8 @@ public class Modele extends Observable {
     List<Case> chemin;
 
     public Modele() {
-        this.grille = new Grille(3, 3);
+        String[] tab =  {"Etoile.png", "Spirale.png"};
+        this.grille = new Grille(3, 3, tab);
         chemin = new ArrayList<>();
         grille.createSymbols(0, 0, 1, 2);
         grille.createSymbols(2, 0, 2, 2);
@@ -56,7 +57,7 @@ public class Modele extends Observable {
                         ((y == y_p + 1) ? 1 : 0)) :  
                         ((y == y_p) ? ((x == x_p - 1) ? 2 : 
                         ((x == x_p + 1) ? 4 : 0)) : 0));
-                d2 = ((x == x_s) ? ((y == y_s - 1) ? 3 : 
+                    d2 = ((x == x_s) ? ((y == y_s - 1) ? 3 : 
                         ((y == y_s + 1) ? 1 : 0)) :  
                         ((y == y_s) ? ((x == x_s - 1) ? 2 : 
                         ((x == x_s + 1) ? 4 : 0)) : 0));

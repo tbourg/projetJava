@@ -13,9 +13,10 @@ public class Grille {
 
         public int i, j;
         public Case[][] tab;
+        public String[] symboles;
         public int dernierId;
 
-        public Grille(int i, int j) {
+        public Grille(int i, int j, String[] symboles) {
             this.i = i;
             this.j = j;
             tab = new Case[i][j];
@@ -24,12 +25,13 @@ public class Grille {
                     tab[k][l] = new Case(k, l);
                 }
             }
+            this.symboles = symboles;
             dernierId = 0;
         }
         
         public void createSymbols(int x1, int y1, int x2, int y2){
-            tab[x1][y1].setSymbole(dernierId);
-            tab[x2][y2].setSymbole(dernierId);
+            tab[x1][y1].setSymbole(symboles[dernierId]);
+            tab[x2][y2].setSymbole(symboles[dernierId]);
             dernierId++;
         }
 

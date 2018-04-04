@@ -16,7 +16,7 @@ public class Case {
          * etat: 0 = vide 1 = symbole 2 = chemin
          */
         public int etat;
-        public int symboleId = -1;
+        public String symboleId = null;
         /**
          * direction: 1 = au-desssus 2 = droite 3 = au-dessous 4 = gauche
          */
@@ -28,7 +28,7 @@ public class Case {
             this.etat = 0;
         }
 
-        public void setSymbole(int id) {
+        public void setSymbole(String id) {
             this.etat = 1;
             this.symboleId = id;
         }

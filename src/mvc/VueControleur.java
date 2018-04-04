@@ -7,10 +7,14 @@
 package mvc;
 
 import gestionnaireLabyrinthe.Case;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 
@@ -19,6 +23,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -45,7 +51,7 @@ public class VueControleur extends Application {
     Modele m;
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws FileNotFoundException {
 
         // initialisation du modèle que l'on souhaite utiliser
         m = new Modele();
@@ -73,20 +79,29 @@ public class VueControleur extends Application {
                 gPane.getChildren().clear();
                 for (int column = 0; column < 3; column++) {
                     for (int row = 0; row < 3; row++) {
-                        Label l = (Label) list.get(3 * column + row);
-                        Case c = m.grille.tab[column][row];
-                        switch (c.etat) {
-                            case 0:
-                                l.setText("");
-                                break;
-                            case 1:
-                                l.setText(String.valueOf(c.symboleId));
-                                break;
-                            case 2:
-                                l.setText(c.d_1 + "->" + c.d_2);
-                                break;
+                        try {
+                            Label l = (Label) list.get(3 * column + row);
+                            Case c = m.grille.tab[column][row];
+                            switch (c.etat) {
+                                case 0:
+                                    l.setText("");
+                                    break;
+                                case 1:
+                                    l.setText("");
+                                    String path = "src/Symboles/" + c.symboleId;
+                                    ImageView img = new ImageView(new Image(new FileInputStream(path)));
+                                    img.setFitHeight(100);
+                                    img.setFitWidth(100);
+                                    l.setGraphic(img);
+                                    break;
+                                case 2:
+                                    l.setText(c.d_1 + "->" + c.d_2);
+                                    break;
+                            }
+                            gPane.add(l, column, row);
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(VueControleur.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        gPane.add(l, column, row);
                     }
                 }
             }
@@ -102,9 +117,13 @@ public class VueControleur extends Application {
                 l.setMinHeight(100);
                 l.setMinWidth(100);
                 if (m.grille.tab[column][row].estSymbole()) {
-                    l.setText(String.valueOf(m.grille.tab[column][row].symboleId));
+                    String path = "src/Symboles/" + m.grille.tab[column][row].symboleId;
+                    ImageView img = new ImageView(new Image(new FileInputStream(path)));
+                    img.setFitHeight(100);
+                    img.setFitWidth(100);
+                    l.setGraphic(img);
                 }
-                l.setBackground(new Background(new BackgroundFill(((((3 * column + row) % 2) == 0) ? Color.LAVENDER : Color.BLANCHEDALMOND), CornerRadii.EMPTY, Insets.EMPTY)));
+                l.setBackground(new Background(new BackgroundFill(Color.rgb(223, 135, 134), CornerRadii.EMPTY, Insets.EMPTY)));
                 tab[column][row] = l;
                 l.setFont(Font.font("Verdana", 25));
 
@@ -140,7 +159,9 @@ public class VueControleur extends Application {
                 gPane.add(tab[column][row], column, row);
             }
         }
-
+        
+        gPane.setHgap(5);
+        gPane.setVgap(5);
 
         border.setCenter(gPane);
 
