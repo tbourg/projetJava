@@ -63,6 +63,7 @@ public class Modele extends Observable {
                         ((x == x_s + 1) ? 4 : 0)) : 0));
                 chemin.get(i).setChemin(d1, d2);
             }
+            chemin.clear();
             setChanged();
             notifyObservers();
         }

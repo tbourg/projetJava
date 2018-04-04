@@ -82,20 +82,50 @@ public class VueControleur extends Application {
                         try {
                             Label l = (Label) list.get(3 * column + row);
                             Case c = m.grille.tab[column][row];
+                            String path = null;
+                            ImageView img;
                             switch (c.etat) {
                                 case 0:
                                     l.setText("");
                                     break;
                                 case 1:
                                     l.setText("");
-                                    String path = "src/Symboles/" + c.symboleId;
-                                    ImageView img = new ImageView(new Image(new FileInputStream(path)));
+                                    path = "src/Symboles/" + c.symboleId;
+                                    img = new ImageView(new Image(new FileInputStream(path)));
                                     img.setFitHeight(100);
                                     img.setFitWidth(100);
                                     l.setGraphic(img);
                                     break;
                                 case 2:
-                                    l.setText(c.d_1 + "->" + c.d_2);
+                                    switch (c.d_1 + c.d_2) {
+                                        case 3:
+                                            path = "src/Symboles/" + "Angle de haut a droite.png";
+                                            break;
+                                        case 7:
+                                            path = "src/Symboles/" + "Angle de bas a gauche.png";
+                                            break;
+                                        case 5:
+                                            switch (c.d_1) {
+                                                case 1:
+                                                case 4:
+                                                    path = "src/Symboles/" + "Angle de haut a gauche.png";
+                                                    break;
+                                                default:
+                                                    path = "src/Symboles/" + "Angle de bas a droite.png";
+                                                    break;
+                                            }
+                                            break;
+                                        case 4:
+                                            path = "src/Symboles/" + "Vertical.png";
+                                            break;
+                                        case 6:
+                                            path = "src/Symboles/" + "Horizontal.png";
+                                            break;
+                                    }
+                                    img = new ImageView(new Image(new FileInputStream(path)));
+                                    img.setFitHeight(100);
+                                    img.setFitWidth(100);
+                                    l.setGraphic(img);
                                     break;
                             }
                             gPane.add(l, column, row);
@@ -159,7 +189,7 @@ public class VueControleur extends Application {
                 gPane.add(tab[column][row], column, row);
             }
         }
-        
+
         gPane.setHgap(5);
         gPane.setVgap(5);
 
