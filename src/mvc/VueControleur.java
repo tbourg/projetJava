@@ -16,7 +16,6 @@ import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -82,47 +81,20 @@ public class VueControleur extends Application {
                         try {
                             Label l = (Label) list.get(3 * column + row);
                             Case c = m.grille.tab[column][row];
-                            String path = null;
                             ImageView img;
                             switch (c.etat) {
                                 case 0:
-                                    l.setText("");
+                                    l.setGraphic(null);
                                     break;
                                 case 1:
-                                    l.setText("");
-                                    path = "src/Symboles/" + c.symboleId;
-                                    img = new ImageView(new Image(new FileInputStream(path)));
+                                    img = new ImageView(new Image(new FileInputStream(c.symbole.getPath())));
                                     img.setFitHeight(100);
                                     img.setFitWidth(100);
                                     l.setGraphic(img);
                                     break;
                                 case 2:
-                                    switch (c.d_1 + c.d_2) {
-                                        case 3:
-                                            path = "src/Symboles/" + "Angle de haut a droite.png";
-                                            break;
-                                        case 7:
-                                            path = "src/Symboles/" + "Angle de bas a gauche.png";
-                                            break;
-                                        case 5:
-                                            switch (c.d_1) {
-                                                case 1:
-                                                case 4:
-                                                    path = "src/Symboles/" + "Angle de haut a gauche.png";
-                                                    break;
-                                                default:
-                                                    path = "src/Symboles/" + "Angle de bas a droite.png";
-                                                    break;
-                                            }
-                                            break;
-                                        case 4:
-                                            path = "src/Symboles/" + "Vertical.png";
-                                            break;
-                                        case 6:
-                                            path = "src/Symboles/" + "Horizontal.png";
-                                            break;
-                                    }
-                                    img = new ImageView(new Image(new FileInputStream(path)));
+                                    
+                                    img = new ImageView(new Image(new FileInputStream(c.lien.getPath())));
                                     img.setFitHeight(100);
                                     img.setFitWidth(100);
                                     l.setGraphic(img);
@@ -147,8 +119,7 @@ public class VueControleur extends Application {
                 l.setMinHeight(100);
                 l.setMinWidth(100);
                 if (m.grille.tab[column][row].estSymbole()) {
-                    String path = "src/Symboles/" + m.grille.tab[column][row].symboleId;
-                    ImageView img = new ImageView(new Image(new FileInputStream(path)));
+                    ImageView img = new ImageView(new Image(new FileInputStream(m.grille.tab[column][row].symbole.getPath())));
                     img.setFitHeight(100);
                     img.setFitWidth(100);
                     l.setGraphic(img);
@@ -192,6 +163,7 @@ public class VueControleur extends Application {
 
         gPane.setHgap(5);
         gPane.setVgap(5);
+        gPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
         border.setCenter(gPane);
 
