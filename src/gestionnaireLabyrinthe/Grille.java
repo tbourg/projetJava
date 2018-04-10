@@ -15,6 +15,7 @@ public class Grille {
     public Case[][] tab;
     public int dernierId;
     public Chemin chemin;
+    private int nbChemin = 0;
 
     public Grille(int i, int j) {
         this.i = i;
@@ -53,6 +54,12 @@ public class Grille {
     public void stopDD() {
         if(!chemin.get(chemin.size()-1).estSymbole()){
             chemin.destroy();
+        }
+        else{
+            nbChemin++;
+        }
+        if(nbChemin == 2){
+            System.out.println("Victoiiiiiire");
         }
     }
 
