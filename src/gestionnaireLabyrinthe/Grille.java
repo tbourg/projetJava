@@ -43,8 +43,12 @@ public class Grille {
         dernierId++;
     }
 
-    public void startDD() {
+    public void startDD(int c, int r) {
         chemin = new Chemin();
+                if (tab[c][r].estSymbole() && chemins.get(tab[c][r].symbole.ordinal()) != null) {
+                    chemins.get(tab[c][r].symbole.ordinal()).destroy();
+                    chemins.add(tab[c][r].symbole.ordinal(), null);
+                }
     }
 
     public void parcoursDD(int c, int r) {
@@ -66,23 +70,25 @@ public class Grille {
     }
 
     public void stopDD() {
-        if (!chemin.get(chemin.size() - 1).estSymbole()) {
-            chemin.destroy();
-        } else {
-            if (chemins.get(chemin.get(0).symbole.ordinal()) != null) {
-                chemins.get(chemin.get(0).symbole.ordinal()).destroy();
-                chemins.remove(chemin.get(0).symbole.ordinal());
+        if (chemin != null) {
+            if (!chemin.get(chemin.size() - 1).estSymbole()) {
+                chemin.destroy();
+            } else {
+                if (chemins.get(chemin.get(0).symbole.ordinal()) != null) {
+                    chemins.get(chemin.get(0).symbole.ordinal()).destroy();
+                    chemins.add(chemin.get(0).symbole.ordinal(), null);
+                }
+                chemins.add(chemin.get(0).symbole.ordinal(), chemin);
+                nbChemin++;
             }
-            chemins.add(chemin.get(0).symbole.ordinal(), chemin);
-            nbChemin++;
         }
         win = checkVictory();
     }
-    
-    public boolean checkVictory(){
-        for(Case[] row : tab){
-            for(Case c : row){
-                if(c.estVide()){
+
+    public boolean checkVictory() {
+        for (Case[] row : tab) {
+            for (Case c : row) {
+                if (c.estVide()) {
                     return false;
                 }
             }
