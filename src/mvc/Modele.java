@@ -19,10 +19,10 @@ public class Modele extends Observable {
     int lastC, lastR;
     Grille grille;
 
-    public Modele() {
-        this.grille = new Grille(3, 3);
-        grille.createSymbols(0, 0, 1, 2);
-        grille.createSymbols(2, 0, 2, 2);
+    public Modele(int size, int x1_s1, int y1_s1, int x2_s1, int y2_s1, int x1_s2, int y1_s2, int x2_s2, int y2_s2) {
+        this.grille = new Grille(size, size);
+        grille.createSymbols(x1_s1, y1_s1, x2_s1, y2_s1);
+        grille.createSymbols(x1_s2, y1_s2, x2_s2, y2_s2);
     }
 
     public void startDD(int c, int r) {
