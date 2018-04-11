@@ -74,37 +74,43 @@ public class VueControleur extends Application {
             @Override
             public void update(Observable o, Object arg) {
                 // TODO
-                List<Node> list = new ArrayList<>(gPane.getChildren());
-                gPane.getChildren().clear();
-                for (int column = 0; column < 3; column++) {
-                    for (int row = 0; row < 3; row++) {
-                        try {
-                            Label l = (Label) list.get(3 * column + row);
-                            Case c = m.grille.tab[column][row];
-                            ImageView img;
-                            switch (c.etat) {
-                                case 0:
-                                    l.setGraphic(null);
-                                    break;
-                                case 1:
-                                    img = new ImageView(new Image(new FileInputStream(c.symbole.getPath())));
-                                    img.setFitHeight(100);
-                                    img.setFitWidth(100);
-                                    l.setGraphic(img);
-                                    break;
-                                case 2:
-                                    
-                                    img = new ImageView(new Image(new FileInputStream(c.lien.getPath())));
-                                    img.setFitHeight(100);
-                                    img.setFitWidth(100);
-                                    l.setGraphic(img);
-                                    break;
+                if (!m.grille.win) {
+                    List<Node> list = new ArrayList<>(gPane.getChildren());
+                    gPane.getChildren().clear();
+                    for (int column = 0; column < 3; column++) {
+                        for (int row = 0; row < 3; row++) {
+                            try {
+                                Label l = (Label) list.get(3 * column + row);
+                                Case c = m.grille.tab[column][row];
+                                ImageView img;
+                                switch (c.etat) {
+                                    case 0:
+                                        l.setGraphic(null);
+                                        break;
+                                    case 1:
+                                        img = new ImageView(new Image(new FileInputStream(c.symbole.getPath())));
+                                        img.setFitHeight(100);
+                                        img.setFitWidth(100);
+                                        l.setGraphic(img);
+                                        break;
+                                    case 2:
+
+                                        img = new ImageView(new Image(new FileInputStream(c.lien.getPath())));
+                                        img.setFitHeight(100);
+                                        img.setFitWidth(100);
+                                        l.setGraphic(img);
+                                        break;
+                                }
+                                gPane.add(l, column, row);
+                            } catch (FileNotFoundException ex) {
+                                Logger.getLogger(VueControleur.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                            gPane.add(l, column, row);
-                        } catch (FileNotFoundException ex) {
-                            Logger.getLogger(VueControleur.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
+                } else {
+                    gPane.getChildren().clear();
+                    gPane.add(new Text("VICTOIRE !!!"), 0, 0, 3, 3);
+                    gPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
                 }
             }
         });

@@ -5,6 +5,9 @@
  */
 package gestionnaireLabyrinthe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author p1500925
@@ -14,7 +17,9 @@ public class Grille {
     public int i, j;
     public Case[][] tab;
     public int dernierId;
+    public boolean win = false;
     public Chemin chemin;
+    private List<Chemin> chemins;
     private int nbChemin = 0;
 
     public Grille(int i, int j) {
@@ -27,6 +32,9 @@ public class Grille {
             }
         }
         dernierId = 0;
+        chemins = new ArrayList<>(2);
+        chemins.add(0, null);
+        chemins.add(1, null);
     }
 
     public void createSymbols(int x1, int y1, int x2, int y2) {
@@ -40,27 +48,46 @@ public class Grille {
     }
 
     public void parcoursDD(int c, int r) {
-        if (tab[c][r].estSymbole()) {
-            if (chemin.isEmpty() || tab[c][r].symbole == chemin.get(0).symbole) {
-                chemin.add(tab[c][r]);
+        if (chemin != null && !chemin.contains(tab[c][r])) {
+            if (tab[c][r].estSymbole()) {
+                if (chemin.isEmpty() || tab[c][r].symbole == chemin.get(0).symbole) {
+                    chemin.add(tab[c][r]);
+                } else {
+                    chemin.destroy();
+                    chemin = null;
+                }
             } else {
-                chemin.destroy();
+                chemin.add(tab[c][r]);
             }
         } else {
-            chemin.add(tab[c][r]);
+            chemin.destroy();
+            chemin = null;
         }
     }
 
     public void stopDD() {
-        if(!chemin.get(chemin.size()-1).estSymbole()){
+        if (!chemin.get(chemin.size() - 1).estSymbole()) {
             chemin.destroy();
-        }
-        else{
+        } else {
+            if (chemins.get(chemin.get(0).symbole.ordinal()) != null) {
+                chemins.get(chemin.get(0).symbole.ordinal()).destroy();
+                chemins.remove(chemin.get(0).symbole.ordinal());
+            }
+            chemins.add(chemin.get(0).symbole.ordinal(), chemin);
             nbChemin++;
         }
-        if(nbChemin == 2){
-            System.out.println("Victoiiiiiire");
+        win = checkVictory();
+    }
+    
+    public boolean checkVictory(){
+        for(Case[] row : tab){
+            for(Case c : row){
+                if(c.estVide()){
+                    return false;
+                }
+            }
         }
+        return true;
     }
 
 }

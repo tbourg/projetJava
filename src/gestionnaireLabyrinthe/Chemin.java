@@ -84,6 +84,10 @@ public class Chemin {
     public int size(){
         return list.size();
     }
+    
+    public boolean contains(Case c){
+        return list.contains(c);
+    }
 
     public void destroy() {
         System.err.println("destroyed");
