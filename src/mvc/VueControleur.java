@@ -102,16 +102,48 @@ public class VueControleur extends Application {
         GridPane gPane = new GridPane();
 
         Label[][] tab = new Label[size][size];
+        
+        int lvl = (int) (Math.random() * ( 3 - 0 ));
         // initialisation du modèle que l'on souhaite utiliser
         switch (size) {
             case 3:
-                m = new Modele(size, 0, 0, 1, 2, 2, 0, 2, 2);
+                switch (lvl){
+                    case 0:    
+                        m = new Modele(size, 0, 0, 1, 2, 2, 0, 2, 2);
+                        break;
+                    case 1:
+                        m = new Modele(size, 0, 2, 2, 0, 1, 0, 1, 1);
+                        break;
+                    case 2:
+                        m = new Modele(size, 1, 0, 2, 2, 1, 1, 2, 0);
+                        break;
+                }
                 break;
             case 4:
-                m = new Modele(size, 0, 0, 3, 0, 1, 0, 2, 2);
+                switch (lvl){
+                    case 0:    
+                        m = new Modele(size, 0, 0, 3, 0, 1, 0, 2, 2);
+                        break;
+                    case 1:
+                        m = new Modele(size, 0, 0, 2, 3, 1, 0, 3, 3);
+                        break;
+                    case 2:
+                        m = new Modele(size, 1, 0, 0, 3, 2, 0, 1, 3);
+                        break;
+                }
                 break;
             case 5:
-                m = new Modele(size, 0, 0, 1, 1, 1, 2, 3, 3);
+                switch (lvl){
+                    case 0:    
+                        m = new Modele(size, 0, 0, 1, 1, 1, 2, 3, 3);
+                        break;
+                    case 1:
+                        m = new Modele(size, 0, 0, 4, 4, 4, 0, 4, 3);
+                        break;
+                    case 2:
+                        m = new Modele(size, 1, 4, 3, 3, 2, 0, 0, 4);
+                        break;
+                }
                 break;
         }
 
