@@ -18,11 +18,13 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -59,13 +61,17 @@ public class VueControleur extends Application {
 
         ComboBox box = new ComboBox();
         box.setTooltip(new Tooltip("Quelle taille désirez-vous?"));
+        
+        box.setValue(3);
 
         box.getItems().add(3);
         box.getItems().add(4);
         box.getItems().add(5);
-        box.valueProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+        
+        Button button = new Button("Jouer");
+        
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
                 try {
                     Stage game = new Stage();
                     game.setTitle("Partie de " + box.getValue() + "x" + box.getValue());
@@ -76,10 +82,20 @@ public class VueControleur extends Application {
                 }
             }
         });
-
+        
+        /*box.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                
+            }
+        });*/
         pane.setCenter(box);
 
         pane.setLeft(new Text("Sélectionnez la taille de la grille:"));
+        
+        pane.setBottom(button);
+        
+        button.setPadding(new Insets(10,10,10,10));
 
         Scene scene = new Scene(pane, Color.LIGHTBLUE);
 
